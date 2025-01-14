@@ -35,8 +35,8 @@ import os
 directories = ["./dataset/test/labels", "./dataset/train/labels", "./dataset/valid/labels"]
 
 # Class ID to replace and its replacement
-class_id_to_replace = "1"
-replacement_class_id = "0"
+class_id_to_replace = "2"
+replacement_class_id = "1"
 
 # Loop through all specified directories
 for directory_path in directories:
