@@ -33,9 +33,8 @@ def detect_objects(model, img, original_image, conf_threshold=0.25, input_size=6
     for det in detections:
         values = det.cpu().numpy()
         print(f"Detection values: {values}")  # Debugging output
-        x1, y1, x2, y2, confidence, class_id = values[:6]  # Adjust to use only required values
+        x1, y1, x2, y2, confidence, class_id = values[:6]  
 
-        # Scale bounding boxes back to the original image size
         orig_h, orig_w = original_image.shape[:2]
         scale_x = orig_w / input_size
         scale_y = orig_h / input_size
@@ -52,29 +51,25 @@ def detect_objects(model, img, original_image, conf_threshold=0.25, input_size=6
     return results
 
 
-# Draw bounding boxes on the image
 def draw_boxes(image, detections, class_names):
     for det in detections:
         x1, y1, x2, y2 = det["box"]
         confidence = det["confidence"]
         class_id = det["class_id"]
 
-        # Draw bounding box
-        color = (0, 255, 0)  # Green box
+        color = (0, 255, 0)  
         cv2.rectangle(image, (x1, y1), (x2, y2), color, 2)
 
-        # Add label
+      
         label = f"{class_names[class_id]}: {confidence:.2f}"
         cv2.putText(image, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
     return image
 
-# Main function
 def main():
-    # Replace with the path to your test image
-    image_path = '1.jpg'
-    class_names = ['Electric Pole', 'Electric Wire', 'Tree']  # Replace with your model's class names
+    
+    image_path = '2.jpg'
+    class_names = ['Electric Pole', 'Electric Wire', 'Tree']  
 
-    # Preprocess the image
     img, original_image = preprocess_image(image_path)
 
     # Perform object detection
