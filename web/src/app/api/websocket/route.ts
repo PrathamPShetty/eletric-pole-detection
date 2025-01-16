@@ -1,14 +1,20 @@
-import { Server } from 'Socket.IO'
+import { Server } from 'socket.io';
 
-const SocketHandler = (req, res) => {
-  if (res.socket.server.io) {
-    console.log('Socket is already running')
+const ioHandler = (req, res) => {
+  if (!res.socket.server.io) {
+    console.log('Starting socket.io server...');
+    const io = new Server(res.socket.server);
+    io.on('connection', (socket) => {
+      socket.on('message', (msg) => {
+        console.log(msg);
+        socket.broadcast.emit('message', msg);
+      });
+    });
+    res.socket.server.io = io;
   } else {
-    console.log('Socket is initializing')
-    const io = new Server(res.socket.server)
-    res.socket.server.io = io
+    console.log('Socket.io server already running');
   }
-  res.end()
-}
+  res.end();
+};
 
-export default SocketHandler
+export default ioHandler;
